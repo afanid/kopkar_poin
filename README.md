@@ -390,3 +390,4 @@ Internal engineer silakan berkontribusi untuk membuat guideline ini bisa lebih l
 
 Jika ada pertanyaan atau permintaan update silakan untuk mengajukan issue di repository terkait.
 # kopkar_poin
+# kopkar_poin
