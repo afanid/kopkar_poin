@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\MainPayment;
 use App\Models\Roles;
 use App\Models\User;
+use App\Models\Point;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
+use Carbon\Carbon;
 
-class UserController extends Controller
+class PointController extends Controller
 {
     private $isSuccess;
     private $exception;
@@ -23,7 +26,7 @@ class UserController extends Controller
 
     public function index()
     {
-        return view('admin.user.index');
+        return view('admin.point.index');
     }
 
     public function datatables()
@@ -100,5 +103,48 @@ class UserController extends Controller
             "message"   => $this->isSuccess ? "Success!" : ($this->exception ?? "Unknown error(?)"),
             "data"      => $this->isSuccess ? $data : [],
         ], 201);
+    }
+
+    public function simpanpoin(Request $request)
+    {
+    }
+    public function listpoin(Request $request)
+    {
+
+        $cek = MainPayment::whereDate('created_at', Carbon::now())->get();
+        $hasilpoin = array();
+        if ($cek) {
+            $i = 0;
+            foreach ($cek as $key) {
+
+                // fungsi perhitungan poin di nominal 10.000 mendapat 1 point
+                if (@$key->amount >= 10000) {
+                    $nominal = ceil(@$key->amount / 10000);
+                    $hasilpoin[$i] = array('id_pay' => $key->id, 'user_id' => $key->user_id, 'jml_poin' => $nominal);
+                    $i++;
+                }
+            }
+            foreach ($hasilpoin as $ky) {
+                for ($i = 0; $i <= $ky['jml_poin']; $i++) {
+                    $cek_ = DB::table('poin')->where('id_mainpay', $ky['id_pay'])->count();
+                    if (!$cek_ || $cek_ <= $ky['jml_poin']) {
+                        DB::table('poin')->insert(['id_mainpay' => $ky['id_pay'], 'user_id' => $ky['user_id']]);
+                    }
+                }
+            }
+        }
+
+
+        $usert_db = DB::table('poin')->select('user_id', DB::raw('count(id_poin) as jmlPoin'))
+            ->groupBy('user_id')->get();
+        $i = 0;
+        foreach ($usert_db as $y) {
+            $s = DB::table('users')->select('name')->where('id', 'like', $y->user_id)->first();
+            $usert_db[$i]->name = @$s->name;
+            $i++;
+        }
+        return response()->json([
+            "status"    => $usert_db
+        ]);
     }
 }

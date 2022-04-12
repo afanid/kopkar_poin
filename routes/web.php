@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\MasterDataController;
 use App\Http\Controllers\Admin\MonthlyPaymentController;
 use App\Http\Controllers\Admin\OtherPaymentController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\PointController;
 use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -12,7 +13,7 @@ use App\Http\Controllers\Admin\DashboardController;
 
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/', function(){
+Route::get('/', function () {
     return redirect()->route('login.index');
 });
 
@@ -22,23 +23,22 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::get('/check', function () {
-	if (Auth::user()->roles->name == 'user') {
-		return redirect(url('/user/profile'));
-	}
+    if (Auth::user()->roles->name == 'user') {
+        return redirect(url('/user/profile'));
+    }
 
-	if (Auth::user()->roles->name == 'admin') {
-		return redirect()->route('admin.dashboard');
-	}
-
+    if (Auth::user()->roles->name == 'admin') {
+        return redirect()->route('admin.dashboard');
+    }
 })->middleware('role:user,admin');
 
 // sample route with company and user role
 Route::get('/check-multi', function () {
-	filterMenu();
+    filterMenu();
 })->middleware('role:user');
 
 Route::group(['as' => 'admin.', 'middleware' => 'role:admin'], function () {
-	Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::group(['prefix' => 'meta', 'as' => 'meta.'], function () {
         Route::get('/', [MasterDataController::class, 'index'])->name('index');
@@ -54,6 +54,27 @@ Route::group(['as' => 'admin.', 'middleware' => 'role:admin'], function () {
         Route::get('/show/{id?}', [UserController::class, 'show'])->name('show');
         Route::post('/store', [UserController::class, 'store'])->name('store');
         Route::post('/destroy/{id?}', [UserController::class, 'destroy'])->name('destroy');
+
+        Route::group(['prefix' => 'wallet', 'as' => 'wallet.'], function () {
+            Route::get('/', [WalletController::class, 'index'])->name('index');
+            Route::get('/datatables', [WalletController::class, 'datatables'])->name('ajax');
+            Route::get('/show/{id?}', [WalletController::class, 'show'])->name('show');
+        });
+    });
+    Route::group(['prefix' => 'point', 'as' => 'point.'], function () {
+        Route::get('/manage-user', [PointController::class, 'index'])->name('index');
+        // Route::get('/datatables', [PointController::class, 'datatables'])->name('ajax');
+        // Route::get('/show/{id?}', [PointController::class, 'show'])->name('show');
+        // Route::post('/store', [PointController::class, 'store'])->name('store');
+        // Route::post('/destroy/{id?}', [PointController::class, 'destroy'])->name('destroy');
+        // Route::post('/simpan-poin', [PointController::class, 'simpanpoin']);
+        // Route::post('/list-poin', [PointController::class, 'listpoin']);
+        Route::get('get-poin-transaksi', [PointController::class, 'getpointransaksi']);
+        Route::get('datapoin', [PointController::class, 'datapoin']);
+        Route::get('get-table-poin', [PointController::class, 'gettablepoin']);
+        Route::post('edit-poin-transaksi', [PointController::class, 'editpointransaksi']);
+        Route::get('hapus-poin-transaksi', [PointController::class, 'hapuspointransaksi']);
+
 
         Route::group(['prefix' => 'wallet', 'as' => 'wallet.'], function () {
             Route::get('/', [WalletController::class, 'index'])->name('index');
@@ -87,6 +108,4 @@ Route::group(['as' => 'admin.', 'middleware' => 'role:admin'], function () {
             Route::post('/destroy/{id?}', [OtherPaymentController::class, 'destroy'])->name('destroy');
         });
     });
-
 });
-

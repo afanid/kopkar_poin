@@ -44,7 +44,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.user.index') }}" class="nav-link {{Route::currentRouteName() == 'admin.user.index' ? 'active' : ''}}">
+                    <a href="{{ route('admin.point.index') }}" class="nav-link {{Route::currentRouteName() == 'admin.point.index' ? 'active' : ''}}">
                         <i class="fa fa-user nav-icon"></i>
                         <p>Manage Poin</p>
                     </a>

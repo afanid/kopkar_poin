@@ -180,6 +180,22 @@ Simpanan Wajib
 <script src="{{asset('plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
 <script>
     $(document).ready(function() {
+        // setInterval(function() {
+        //     getpoin()
+        // }, 2000);
+        //getpoin();
+        function getpoin() {
+            console.log('test');
+            const fomrdt = new FormData();
+            fomrdt.append('_token', '{{csrf_token()}}');
+            fetch("{{url('point/simpan-poin')}}", {
+                method: 'POST',
+                body: fomrdt
+            }).then(res => res.json()).then(data => {
+
+            });
+
+        }
         $('#user-modal').on('shown.bs.modal', function(event) {
             $('#payment_month').daterangepicker({
                 singleDatePicker: true,

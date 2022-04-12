@@ -39,7 +39,7 @@ class MainPaymentController extends Controller
     {
         try {
             DB::beginTransaction();
-            $request->amount = preg_replace( '/[^0-9]/', '', $request->amount );
+            $request->amount = preg_replace('/[^0-9]/', '', $request->amount);
 
             $configPayment['main'] = ConfigPayment::where(['is_active' => 1, 'name' => 'main_payment'])->first();
             $mainPayment = MainPayment::updateOrCreate(
@@ -53,7 +53,7 @@ class MainPaymentController extends Controller
             );
 
             $mainTotal = MainPayment::where('user_id', $request->user_id)->sum('amount');
-            if ($mainTotal >= $configPayment['main']->paid_off_amount){
+            if ($mainTotal >= $configPayment['main']->paid_off_amount) {
                 User::where('id', $request->user_id)->update([
                     'main_payment_status' => 1
                 ]);
