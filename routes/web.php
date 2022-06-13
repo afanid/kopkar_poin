@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\Admin\MainPaymentController;
 use App\Http\Controllers\Admin\MasterDataController;
 use App\Http\Controllers\Admin\MonthlyPaymentController;
@@ -10,6 +9,9 @@ use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\User\AnggotaController;
+
+
 
 use Illuminate\Support\Facades\Auth;
 
@@ -24,7 +26,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/check', function () {
     if (Auth::user()->roles->name == 'user') {
-        return redirect(url('/user/profile'));
+        return redirect()->route('user.dashboard');
     }
 
     if (Auth::user()->roles->name == 'admin') {
@@ -108,4 +110,8 @@ Route::group(['as' => 'admin.', 'middleware' => 'role:admin'], function () {
             Route::post('/destroy/{id?}', [OtherPaymentController::class, 'destroy'])->name('destroy');
         });
     });
+});
+Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'role:user'], function () {
+	Route::get('/dashboard', [AnggotaController::class, 'dashboard'])->name('dashboard');
+
 });

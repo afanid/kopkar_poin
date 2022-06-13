@@ -48,7 +48,7 @@ class UserController extends Controller
                     'role_id'           => Roles::where('name', 'user')->first()->id,
                     'email'             => $request->email,
                     'username'          => $request->username,
-                    'password'          => $request->password ?? Hash::make('anggota312'),
+                    'password'          => $request->password ?? Hash::make($request->password),
                     'registered_at'     => $request->registered_at,
                     'status'            => $request->status,
                     'member_id'         => $request->member_id,
