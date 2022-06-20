@@ -35,7 +35,7 @@ class PointController extends Controller
 
         $response = curl_exec($curl);
         curl_close($curl);
-        $data = json_decode($response);
+        $data = json_decode($response);   
         if (count(@$data->{'data'}) != 0) {
             // echo '<pre>';
             $data_trx = @$data->{'data'};
@@ -46,7 +46,7 @@ class PointController extends Controller
                 $nominal_awal   = @$key->{'TRANSACTION_TOTAL'};
                 // echo '</pre>';
                 $db_get         = DB::table('tb_poin_fandi')
-                    ->where('id_user', $key->{'USER_FULLNAME'})
+                    ->where('id_user', strtolower(@$key->{'created_by'}->{'USER_FULLNAME'}))
                     ->whereDate('tanggal_poin', $created_at)
                     ->where('status', 'aktif')
                     ->get();
@@ -64,7 +64,7 @@ class PointController extends Controller
                                 'jumlah_poin'   => $ttl_,
                                 'id_transaksi'  => @$key->{'TRANSACTION_ID'},
                                 'tanggal_poin'  => @$created_at,
-                                'id_user'       => $key->{'USER_FULLNAME'},
+                                'id_user'       => strtolower(@$key->{'created_by'}->{'USER_FULLNAME'}),
                                 'nominal'       => @$key->{'TRANSACTION_TOTAL'},
                                 'status'        => 'aktif'
                             ]

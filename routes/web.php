@@ -113,5 +113,13 @@ Route::group(['as' => 'admin.', 'middleware' => 'role:admin'], function () {
 });
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'role:user'], function () {
 	Route::get('/dashboard', [AnggotaController::class, 'dashboard'])->name('dashboard');
+    Route::get('/poin-user', [AnggotaController::class, 'poinuser'])->name('poinuser');
+
+    Route::get('/pembayaran-user', [AnggotaController::class, 'pembayaranuser'])->name('pembayaranuser');
+    Route::get('/keuangan-user', [AnggotaController::class, 'keuanganuser'])->name('keuanganuser'); 
+
+
+
 
 });
+ 
