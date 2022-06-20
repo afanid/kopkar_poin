@@ -100,5 +100,6 @@ class PointController extends Controller
             ->where('id_poin', $request->input('id_poin'))
             ->update(['status'  => 'hapus']);
         print json_encode(array('error' => false));
+        // test
     }
 }
