@@ -146,7 +146,7 @@ Manage User
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>No Anggota</label>
+                                <label>Name Store</label>
                                 <input type="text" name="member_id" class="form-control form-control-border" id="member_id" placeholder="">
                             </div>
                             <div class="form-group">

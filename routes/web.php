@@ -114,9 +114,20 @@ Route::group(['as' => 'admin.', 'middleware' => 'role:admin'], function () {
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'role:user'], function () {
 	Route::get('/dashboard', [AnggotaController::class, 'dashboard'])->name('dashboard');
     Route::get('/poin-user', [AnggotaController::class, 'poinuser'])->name('poinuser');
+    Route::get('/get-table-poin', [AnggotaController::class, 'gettablepoin']);
+    Route::get('/get-table-poin/{id_poin}', [AnggotaController::class, 'gettablepoindetail']);
 
-    Route::get('/pembayaran-user', [AnggotaController::class, 'pembayaranuser'])->name('pembayaranuser');
-    Route::get('/keuangan-user', [AnggotaController::class, 'keuanganuser'])->name('keuanganuser'); 
+
+
+
+    Route::get('/payment/list', [AnggotaController::class, 'payment'])->name('payment.main.index');
+    Route::get('/payment/monthly/list', [AnggotaController::class, 'paymentmonthly'])->name('payment.monthly.index');
+    Route::get('/payment/other/list', [AnggotaController::class, 'paymentother'])->name('payment.other.index');
+
+
+    
+
+    Route::get('/keuangan-user', [AnggotaController::class, 'keuanganuser'])->name('keuangan'); 
 
 
 

@@ -5,9 +5,7 @@
 @section('css') 
 @endsection 
 @section('content')
-<?php
-
-?>
+<!-- user 12345678 -->
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -15,12 +13,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Data Poin</h1>
+                    <h1 class="m-0">Data Pembayaran Wajib</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Data Poin</li>
+                        <li class="breadcrumb-item active">Data Pembayaran Wajib</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -32,8 +30,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Data Poin</h3>
+                <div class="card-header"> 
 
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -45,18 +42,30 @@
                     </div>
                 </div>
                 <div class="card-body">
-                <table class="table center">
-                <tr>
-                    <th>id_transaksi</th>
-                    <th>tanggal_poin</th>
-                    <th>id_user</th>
-                    <th>nominal</th>
-                    <th>jumlah_poin</th>
-                    <th>Aksi</th>
-                </tr>
-                <tbody id="listPoin">
-                </tbody>
-                </table>
+                    <div class="row">
+                        <div class="col-md-4">
+                            
+                              <div class="card bg-primary">
+                                  <div class="card-body">Total Simpan Pokok
+                                    <h3>{{$main_payments}}</h3>
+                                  </div>
+                              </div>
+                        </div>
+                        <div class="col-md-4">
+                            
+                              <div class="card bg-primary">
+                                  <div class="card-body">Total Simpan Wajib
+                                    <h3>{{$monthly_payments}}</h3></div>
+                              </div>
+                        </div>
+                         <div class="col-md-4">
+                            
+                              <div class="card bg-primary">
+                                  <div class="card-body">Total Simpan Sukarela
+                                    <h3>{{$other_payments}}</h3></div>
+                              </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- /.row -->
@@ -71,31 +80,7 @@
 @section('script')
 <script>
     $(document).ready(function () {
-gettable();
-function gettable() {
-            fetch("{{url('user/get-table-poin')}}", {
-                method: 'GET'
-            }).then(res => res.json()).then(data => {
-                var let_='';
-                 for (let key of data.getpoin.data) {
-                    let_ += `<tr>
-                            <th>` + key.id_transaksi + `</th>
-                            <th>` + key.tanggal_poin + `</th>
-                            <th>` + key.id_user + `</th>
-                            <th>` + key.nominal + `</th>
-                            <th>` + key.jumlah_poin + `</th>
-                            <th data-id_poin="` + key.id_poin + `" 
-                            ><a class="btn btn-warning Detail">Detail</a></th>  
-                        </tr>`
-                }
-                $('#listPoin').html(let_);
-            });
-        }
-$('body').delegate('.Detail','click',function(e)
-{
-    e.preventDefault();
-    window.location.href="{{url('user/get-table-poin')}}/"+$(this).closest('th').data('id_poin');
-});
+ 
     })
 </script>
 @endsection

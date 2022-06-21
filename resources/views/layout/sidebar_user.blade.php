@@ -33,14 +33,37 @@
                         <p>Manage Poin</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('user.pembayaranuser') }}" class="nav-link {{Route::currentRouteName() == 'user.pembayaran' ? 'active' : ''}}">
-                        <i class="fa fa-user nav-icon"></i>
-                        <p>Pembayaran </p>
+                <li class="nav-item {{(strpos(Route::currentRouteName(), 'user.payment') === 0) ? 'menu-is-opening menu-open' : ''}}">
+                    <a href="#" class="nav-link {{(strpos(Route::currentRouteName(), 'user.payment') === 0) ? 'active' : ''}}">
+                        <i class="fa fa-comment-dollar nav-icon"></i>
+                        <p>
+                            Pembayaran
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('user.payment.main.index')}}" class="nav-link {{Route::currentRouteName() == 'user.payment.main.index' ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Simpanan Pokok</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('user.payment.monthly.index')}}" class="nav-link {{Route::currentRouteName() == 'user.payment.monthly.index' ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Simpanan Wajib</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('user.payment.other.index')}}" class="nav-link {{Route::currentRouteName() == 'user.payment.other.index' ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Simpanan Sukarela</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('user.keuanganuser') }}" class="nav-link {{Route::currentRouteName() == 'user.keuangan' ? 'active' : ''}}">
+                    <a href="{{ route('user.keuangan') }}" class="nav-link {{Route::currentRouteName() == 'user.keuangan' ? 'active' : ''}}">
                         <i class="fa fa-user nav-icon"></i>
                         <p>Keuangan anggota</p>
                     </a>
